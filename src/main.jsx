@@ -162,9 +162,16 @@ function About() {
         <p className="eyebrow">About me</p>
         <h1>A curious developer with an eye for detail.</h1>
         <p>
-          I am <strong>Emad Al Nounou</strong>, a Software Engineering – AI
-          student at Centennial College. I enjoy translating ideas into clear, responsive, and
+          I am <strong>Emad Al Nounou</strong>, a Software Engineering
+          Technology – Artificial Intelligence (Co-op) student at Centennial
+          College. I enjoy translating ideas into clear, responsive, and
           approachable web experiences.
+        </p>
+        <p>
+          I bring over 20 years of experience in business operations, client
+          relations, and project coordination to my work in software
+          development. My goal is to build useful, accessible applications that
+          solve practical problems.
         </p>
         <p>
           My work includes education and insurance websites alongside a
@@ -179,17 +186,13 @@ function About() {
           Download my résumé (PDF)
         </a>
       </div>
-      <div
+      <img
         className="portrait"
-        role="img"
-        aria-label="Placeholder for Emad Al Nounou profile photo"
-      >
-        <span>
-          YOUR
-          <br />
-          PHOTO
-        </span>
-      </div>
+        src={`${import.meta.env.BASE_URL}profile.png`}
+        alt="Emad Al Nounou wearing a suit and tie"
+        width="1152"
+        height="1536"
+      />
     </section>
   );
 }
@@ -245,17 +248,33 @@ function Education() {
       <h1>Education & qualifications.</h1>
       <div className="timeline">
         <article>
-          <p>January 2026 — Present · Three-year program</p>
-          <h2>Software Engineering – AI</h2>
+          <p>January 2026 — Expected 2029 · Three-year program</p>
+          <h2>
+            Software Engineering Technology – Artificial Intelligence (Co-op)
+          </h2>
           <h3>Centennial College</h3>
+          <p>Advanced Diploma · In progress</p>
           <p>
-            Focused on web application development, JavaScript, React,
-            databases, and software engineering practices.
+            Studies include Python, C#, JavaScript, web development, SQL and
+            database concepts, Linux/Unix, and software engineering
+            fundamentals.
           </p>
         </article>
         <article>
+          <p>2025</p>
           <h2>General Arts and Science</h2>
-          <p>Completed a General Arts and Science credential in Canada.</p>
+          <h3>Sheridan College, Ontario</h3>
+          <p>Completed credential.</p>
+        </article>
+        <article>
+          <p>2013</p>
+          <h2>Professional Insurance Certificate (PIC)</h2>
+          <h3>Chartered Insurance Institute (CII), United Kingdom</h3>
+        </article>
+        <article>
+          <p>April 2004</p>
+          <h2>Bachelor Degree in Business Administration</h2>
+          <h3>University of Sana'a</h3>
         </article>
       </div>
     </section>
@@ -309,12 +328,28 @@ function Contact() {
         <p className="eyebrow">Get in touch</p>
         <h1>Let’s make something meaningful.</h1>
         <p>
-          Email:{" "}
-          <a href="mailto:emad9797@gmail.com">emad9797@gmail.com</a>
+          Email: <a href="mailto:emad9797@gmail.com">emad9797@gmail.com</a>
           <br />
           Phone: <a href="tel:+19052088444">+1 (905) 208-8444</a>
           <br />
-          Toronto, Ontario
+          Mississauga, Ontario
+        </p>
+        <p>
+          <a
+            href="https://github.com/Emad979797"
+            target="_blank"
+            rel="noreferrer"
+          >
+            GitHub
+          </a>{" "}
+          ·{" "}
+          <a
+            href="https://www.linkedin.com/in/emadalnounou"
+            target="_blank"
+            rel="noreferrer"
+          >
+            LinkedIn
+          </a>
         </p>
       </div>
       <form onSubmit={submit}>

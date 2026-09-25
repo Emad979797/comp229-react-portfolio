@@ -350,3 +350,14 @@ summary:focus-visible {
 .project p strong {
   color: var(--ink);
 }
+
+/* Preserve the supplied headshot without distortion. */
+.portrait {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3/4;
+  object-fit: cover;
+}
+
+.split h1, .contact h1 { font-size:clamp(2.7rem,4vw,3.8rem); }

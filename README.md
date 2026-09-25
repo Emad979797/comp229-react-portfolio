@@ -56,11 +56,14 @@ Enable GitHub Pages with GitHub Actions as the source. A push to `main` builds
 and publishes the site; manual deployment is also supported. The workflow
 uses the repository name as the base path.
 
-## Remaining content before submission
+## Submission
 
-- Confirm the institution and completion date for General Arts and Science.
-- Provide a professional profile photograph and `public/resume.pdf`.
-- Record a walkthrough demonstrating both local and deployed versions.
+- Live portfolio: https://emad979797.github.io/comp229-react-portfolio/
+- Repository: https://github.com/Emad979797/comp229-react-portfolio
+- Include the source ZIP and a walkthrough video showing both local and deployed versions.
 
-Submit the source ZIP, repository URL, deployed URL, and video URL. Exclude
-`node_modules`, package caches, `.git`, and build output from the source ZIP.
+The resume and portrait were supplied by Emad. Sheridan's completion year in
+this copy of the resume is corrected to 2025 as confirmed by Emad. All other
+resume content is preserved.
+
+Exclude `node_modules`, caches, `.git`, and build output from the source ZIP.
