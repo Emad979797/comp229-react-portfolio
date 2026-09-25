@@ -58,10 +58,8 @@ uses the repository name as the base path.
 
 ## Remaining content before submission
 
-- Confirm education and qualification dates.
+- Confirm the institution and completion date for General Arts and Science.
 - Provide a professional profile photograph and `public/resume.pdf`.
-- Confirm public contact email and phone number.
-- Confirm individual contributions to EduGate and Taj.
 - Record a walkthrough demonstrating both local and deployed versions.
 
 Submit the source ZIP, repository URL, deployed URL, and video URL. Exclude

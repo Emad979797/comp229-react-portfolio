@@ -21,14 +21,14 @@ const projects = [
       "An English and Arabic website presenting study-abroad services, destination information, and contact options.",
     outcome:
       "Published a bilingual site with responsive navigation and a WhatsApp contact workflow.",
-    role: "Website development — contribution details to confirm.",
+    role: "Website developer: implemented the bilingual website and responsive interface.",
     image: "edugate.png",
     repository: "edugate-website",
     color: "violet",
   },
   {
     title: "JSEK Electronics Marketplace",
-    type: "Collaborative coursework",
+    type: "First-semester team project",
     detail:
       "A front-end electronics marketplace prototype with buyer, seller, vendor, and administrator interfaces.",
     outcome:
@@ -45,7 +45,7 @@ const projects = [
       "An English and Arabic website for an Ontario insurance broker, with service categories, insurer information, FAQs, and a quote-request form.",
     outcome:
       "Published a responsive website with bilingual content and contact options.",
-    role: "Website development — contribution details to confirm.",
+    role: "Website developer: implemented the bilingual website and responsive interface.",
     image: "taj.png",
     repository: "Tajwebsitetest",
     color: "coral",
@@ -162,8 +162,8 @@ function About() {
         <p className="eyebrow">About me</p>
         <h1>A curious developer with an eye for detail.</h1>
         <p>
-          I am <strong>Emad Al Nounou</strong>, a web application development
-          student. I enjoy translating ideas into clear, responsive, and
+          I am <strong>Emad Al Nounou</strong>, a Software Engineering – AI
+          student at Centennial College. I enjoy translating ideas into clear, responsive, and
           approachable web experiences.
         </p>
         <p>
@@ -245,8 +245,8 @@ function Education() {
       <h1>Education & qualifications.</h1>
       <div className="timeline">
         <article>
-          <p>2026 — Present</p>
-          <h2>Software Engineering Technology</h2>
+          <p>January 2026 — Present · Three-year program</p>
+          <h2>Software Engineering – AI</h2>
           <h3>Centennial College</h3>
           <p>
             Focused on web application development, JavaScript, React,
@@ -254,10 +254,8 @@ function Education() {
           </p>
         </article>
         <article>
-          <p>2024 — 2026</p>
-          <h2>Your prior credential</h2>
-          <h3>Your school or institution</h3>
-          <p>Add the qualification, dates, and relevant achievement here.</p>
+          <h2>General Arts and Science</h2>
+          <p>Completed a General Arts and Science credential in Canada.</p>
         </article>
       </div>
     </section>
@@ -312,9 +310,9 @@ function Contact() {
         <h1>Let’s make something meaningful.</h1>
         <p>
           Email:{" "}
-          <a href="mailto:your.email@example.com">your.email@example.com</a>
+          <a href="mailto:emad9797@gmail.com">emad9797@gmail.com</a>
           <br />
-          Phone: (000) 000-0000
+          Phone: <a href="tel:+19052088444">+1 (905) 208-8444</a>
           <br />
           Toronto, Ontario
         </p>
