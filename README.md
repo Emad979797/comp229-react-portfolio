@@ -50,12 +50,7 @@ Project screenshots were captured from the public GitHub Pages sites. Project
 brand names and images identify the work being showcased. The portfolio's own
 logo is the EAN monogram.
 
-## Deployment (not enabled)
-
-This project is local only at Emad’s request. No remote repository or public
-portfolio has been created for this assignment. The workflow is prepared for
-a possible future deployment.
-
+## Deployment
 
 Enable GitHub Pages with GitHub Actions as the source. A push to `main` builds
 and publishes the site; manual deployment is also supported. The workflow
@@ -63,8 +58,8 @@ uses the repository name as the base path.
 
 ## Submission
 
-- Live portfolio: not published (local-only preference).
-- Remote repository: not created (local Git history is included in the working folder).
+- Live portfolio: https://emad979797.github.io/comp229-react-portfolio/
+- GitHub repository: https://github.com/Emad979797/comp229-react-portfolio
 - Include the source ZIP and a walkthrough video showing both local and deployed versions.
 
 The resume and portrait were supplied by Emad. Sheridan's completion year in
