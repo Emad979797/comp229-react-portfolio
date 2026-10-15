@@ -1,0 +1,15 @@
+<!doctype html><html lang="en"><title>Portfolio Server Connection Evidence</title><style>body{font:20px system-ui;margin:50px;color:#182333}h1{font-size:30px}pre{padding:24px;background:#f1f4f8;font:18px monospace;white-space:pre-wrap;line-height:1.6;border:1px solid #bdc7d5}</style><h1>Portfolio Server Connection Evidence</h1><p>Actual startup output captured from node server.js connected to MongoDB Atlas.</p><pre>◇ injected env (4) from .env // tip: ◈ secrets for agents [www.dotenvx.com]
+Connected to MongoDB database: Portfolio
+Portfolio server running on port 3002</pre><h2>GET /api/health — HTTP 200</h2><pre>{
+  "status": "ok",
+  "database": "Portfolio"
+}</pre><h2>GET /api — HTTP 200</h2><pre>{
+  "message": "Welcome to Emad's Portfolio API",
+  "database": "Portfolio",
+  "resources": [
+    "contacts",
+    "projects",
+    "qualifications",
+    "users"
+  ]
+}</pre></html>

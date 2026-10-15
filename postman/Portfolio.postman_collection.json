@@ -1,0 +1,666 @@
+{
+  "info": {
+    "name": "COMP229 Portfolio Assignment 2",
+    "description": "Set owner credentials and base URL first. User update and delete require the token of the target user; sign in as the disposable user for those requests. DELETE /users is allowed only in explicitly enabled non-production lab mode. Bulk delete requests are destructive; run only against disposable data.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000/api"
+    },
+    {
+      "key": "token",
+      "value": ""
+    },
+    {
+      "key": "ownerEmail",
+      "value": ""
+    },
+    {
+      "key": "ownerPassword",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Sign in",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/auth/signin",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{ownerEmail}}\",\n  \"password\": \"{{ownerPassword}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Signed in', () => pm.response.to.have.status(200)); if (pm.response.code === 200) pm.collectionVariables.set('token', pm.response.json().token);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create contacts",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/contacts",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"API\",\n  \"lastname\": \"Demo\",\n  \"email\": \"demo@example.com\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Created', () => pm.response.to.have.status(201)); if(pm.response.code === 201) pm.collectionVariables.set('contactsId', pm.response.json()._id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List contacts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/contacts",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Read contacts",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/contacts/{{contactsId}}",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update contacts",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/contacts/{{contactsId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"Updated\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete one contacts",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/contacts/{{contactsId}}",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete all contacts \u2014 disposable lab data only",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/contacts",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create projects",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/projects",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"API\",\n  \"lastname\": \"Demo\",\n  \"email\": \"demo@example.com\",\n  \"title\": \"API Demo\",\n  \"completion\": \"2026-10-15\",\n  \"description\": \"Disposable lab test record\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Created', () => pm.response.to.have.status(201)); if(pm.response.code === 201) pm.collectionVariables.set('projectsId', pm.response.json()._id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/projects",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Read projects",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/projects/{{projectsId}}",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update projects",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/projects/{{projectsId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"Updated\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete one projects",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/projects/{{projectsId}}",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete all projects \u2014 disposable lab data only",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/projects",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create qualifications",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/qualifications",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"API\",\n  \"lastname\": \"Demo\",\n  \"email\": \"demo@example.com\",\n  \"title\": \"API Demo\",\n  \"completion\": \"2026-10-15\",\n  \"description\": \"Disposable lab test record\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Created', () => pm.response.to.have.status(201)); if(pm.response.code === 201) pm.collectionVariables.set('qualificationsId', pm.response.json()._id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List qualifications",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/qualifications",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Read qualifications",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/qualifications/{{qualificationsId}}",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update qualifications",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/qualifications/{{qualificationsId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstname\": \"Updated\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete one qualifications",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/qualifications/{{qualificationsId}}",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete all qualifications \u2014 disposable lab data only",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/qualifications",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Create users",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Disposable User\",\n  \"email\": \"disposable@example.com\",\n  \"password\": \"Replace-before-use-2026\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Created', () => pm.response.to.have.status(201)); if(pm.response.code === 201) pm.collectionVariables.set('usersId', pm.response.json()._id);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/users",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Read users",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": "{{baseUrl}}/users/{{usersId}}",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Update users",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": "{{baseUrl}}/users/{{usersId}}",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"Updated Demo\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete one users",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/users/{{usersId}}",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Delete all users \u2014 disposable lab data only",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": "{{baseUrl}}/users",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Sign out",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": "{{baseUrl}}/auth/signout",
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{token}}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

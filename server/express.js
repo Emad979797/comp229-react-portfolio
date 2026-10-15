@@ -1,0 +1,32 @@
+import express from 'express';
+import mongoose from 'mongoose';
+import cors from 'cors';
+import helmet from 'helmet';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { existsSync } from 'node:fs';
+import routes from './routes/api.routes.js';
+const app = express();
+app.disable('x-powered-by');
+app.use(helmet());
+app.use(cors({ origin: (process.env.CLIENT_ORIGIN || 'http://localhost:5173').split(',') }));
+app.use(express.json({ limit: '32kb' }));
+app.get('/api', (_req, res) => res.json({ message: "Welcome to Emad's Portfolio API", database: 'Portfolio', resources: ['contacts', 'projects', 'qualifications', 'users'] }));
+app.get('/api/health', (_req, res) => res.status(mongoose.connection.readyState === 1 ? 200 : 503).json({ status: mongoose.connection.readyState === 1 ? 'ok' : 'unavailable', database: 'Portfolio' }));
+app.use('/api', routes);
+app.use('/api', (_req, res) => res.status(404).json({ error: 'API route not found' }));
+const dist = fileURLToPath(new URL('../client/dist/', import.meta.url));
+if (existsSync(dist)) {
+  app.use(express.static(dist));
+  app.get('/{*path}', (_req, res) => res.sendFile(path.join(dist, 'index.html')));
+} else app.get('/', (_req, res) => res.json({ message: "Welcome to Emad's Portfolio API", frontend: 'http://localhost:5173', api: '/api' }));
+app.use((error, _req, res, _next) => {
+  if (error.code === 11000) return res.status(409).json({ error: 'Email already exists' });
+  if (error.name === 'ValidationError') return res.status(400).json({ error: Object.values(error.errors).map(e => e.message).join('; ') });
+  if (error.name === 'CastError') return res.status(400).json({ error: 'Invalid record ID or field value' });
+  if (error.type === 'entity.parse.failed') return res.status(400).json({ error: 'Invalid JSON body' });
+  if (error.type === 'entity.too.large') return res.status(413).json({ error: 'Request body too large' });
+  console.error('Request failed:', error.name);
+  res.status(500).json({ error: 'An unexpected server error occurred' });
+});
+export default app;

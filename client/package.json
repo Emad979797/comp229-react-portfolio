@@ -1,0 +1,20 @@
+{
+  "name": "react-portfolio-lab-1",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"vite\" \"nodemon ../server.js\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "dev:client": "vite"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest"
+  },
+  "devDependencies": {}
+}

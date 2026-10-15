@@ -1,0 +1,471 @@
+{
+  "runAt": "2026-10-15T23:30:22.421Z",
+  "database": "Disposable local MongoDB Portfolio",
+  "evidence": [
+    {
+      "group": "authentication",
+      "method": "POST",
+      "path": "/api/users",
+      "status": 201,
+      "request": {
+        "name": "Owner Test",
+        "email": "owner@example.com"
+      },
+      "response": {
+        "name": "Owner Test",
+        "email": "owner@example.com",
+        "_id": "6ad1620dd58bcc3dbe84945b",
+        "created": "2026-10-15T23:30:21.170Z",
+        "updated": "2026-10-15T23:30:21.170Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "authentication",
+      "method": "POST",
+      "path": "/api/auth/signin",
+      "status": 200,
+      "request": {
+        "name": "Owner Test",
+        "email": "owner@example.com"
+      },
+      "response": {
+        "user": {
+          "_id": "6ad1620dd58bcc3dbe84945b",
+          "name": "Owner Test",
+          "email": "owner@example.com",
+          "created": "2026-10-15T23:30:21.170Z",
+          "updated": "2026-10-15T23:30:21.170Z",
+          "__v": 0,
+          "canManage": true
+        }
+      }
+    },
+    {
+      "group": "contacts",
+      "method": "POST",
+      "path": "/api/contacts",
+      "status": 201,
+      "request": {
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com"
+      },
+      "response": {
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "_id": "6ad1620dd58bcc3dbe84945c",
+        "createdAt": "2026-10-15T23:30:21.643Z",
+        "updatedAt": "2026-10-15T23:30:21.643Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "contacts",
+      "method": "GET",
+      "path": "/api/contacts",
+      "status": 200,
+      "request": {},
+      "response": [
+        {
+          "_id": "6ad1620dd58bcc3dbe84945c",
+          "firstname": "API",
+          "lastname": "Demo",
+          "email": "demo@example.com",
+          "createdAt": "2026-10-15T23:30:21.643Z",
+          "updatedAt": "2026-10-15T23:30:21.643Z",
+          "__v": 0
+        }
+      ]
+    },
+    {
+      "group": "contacts",
+      "method": "GET",
+      "path": "/api/contacts/6ad1620dd58bcc3dbe84945c",
+      "status": 200,
+      "request": {},
+      "response": {
+        "_id": "6ad1620dd58bcc3dbe84945c",
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "createdAt": "2026-10-15T23:30:21.643Z",
+        "updatedAt": "2026-10-15T23:30:21.643Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "contacts",
+      "method": "PUT",
+      "path": "/api/contacts/6ad1620dd58bcc3dbe84945c",
+      "status": 200,
+      "request": {
+        "firstname": "Updated Demo"
+      },
+      "response": {
+        "firstname": "Updated Demo",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "_id": "6ad1620dd58bcc3dbe84945c",
+        "createdAt": "2026-10-15T23:30:21.643Z",
+        "updatedAt": "2026-10-15T23:30:21.649Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "contacts",
+      "method": "DELETE",
+      "path": "/api/contacts/6ad1620dd58bcc3dbe84945c",
+      "status": 200,
+      "request": {},
+      "response": {
+        "message": "Record deleted",
+        "id": "6ad1620dd58bcc3dbe84945c"
+      }
+    },
+    {
+      "group": "contacts",
+      "method": "DELETE",
+      "path": "/api/contacts",
+      "status": 200,
+      "request": {},
+      "response": {
+        "deletedCount": 0
+      }
+    },
+    {
+      "group": "projects",
+      "method": "POST",
+      "path": "/api/projects",
+      "status": 201,
+      "request": {
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "title": "Disposable API Test",
+        "completion": "2026-10-15",
+        "description": "Fictional test record"
+      },
+      "response": {
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "title": "Disposable API Test",
+        "completion": "2026-10-15T00:00:00.000Z",
+        "description": "Fictional test record",
+        "_id": "6ad1620dd58bcc3dbe84945d",
+        "createdAt": "2026-10-15T23:30:21.655Z",
+        "updatedAt": "2026-10-15T23:30:21.655Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "projects",
+      "method": "GET",
+      "path": "/api/projects",
+      "status": 200,
+      "request": {},
+      "response": [
+        {
+          "_id": "6ad1620dd58bcc3dbe84945d",
+          "firstname": "API",
+          "lastname": "Demo",
+          "email": "demo@example.com",
+          "title": "Disposable API Test",
+          "completion": "2026-10-15T00:00:00.000Z",
+          "description": "Fictional test record",
+          "createdAt": "2026-10-15T23:30:21.655Z",
+          "updatedAt": "2026-10-15T23:30:21.655Z",
+          "__v": 0
+        }
+      ]
+    },
+    {
+      "group": "projects",
+      "method": "GET",
+      "path": "/api/projects/6ad1620dd58bcc3dbe84945d",
+      "status": 200,
+      "request": {},
+      "response": {
+        "_id": "6ad1620dd58bcc3dbe84945d",
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "title": "Disposable API Test",
+        "completion": "2026-10-15T00:00:00.000Z",
+        "description": "Fictional test record",
+        "createdAt": "2026-10-15T23:30:21.655Z",
+        "updatedAt": "2026-10-15T23:30:21.655Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "projects",
+      "method": "PUT",
+      "path": "/api/projects/6ad1620dd58bcc3dbe84945d",
+      "status": 200,
+      "request": {
+        "firstname": "Updated Demo"
+      },
+      "response": {
+        "firstname": "Updated Demo",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "title": "Disposable API Test",
+        "completion": "2026-10-15T00:00:00.000Z",
+        "description": "Fictional test record",
+        "_id": "6ad1620dd58bcc3dbe84945d",
+        "createdAt": "2026-10-15T23:30:21.655Z",
+        "updatedAt": "2026-10-15T23:30:21.658Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "projects",
+      "method": "DELETE",
+      "path": "/api/projects/6ad1620dd58bcc3dbe84945d",
+      "status": 200,
+      "request": {},
+      "response": {
+        "message": "Record deleted",
+        "id": "6ad1620dd58bcc3dbe84945d"
+      }
+    },
+    {
+      "group": "projects",
+      "method": "DELETE",
+      "path": "/api/projects",
+      "status": 200,
+      "request": {},
+      "response": {
+        "deletedCount": 0
+      }
+    },
+    {
+      "group": "qualifications",
+      "method": "POST",
+      "path": "/api/qualifications",
+      "status": 201,
+      "request": {
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "title": "Disposable API Test",
+        "completion": "2026-10-15",
+        "description": "Fictional test record"
+      },
+      "response": {
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "title": "Disposable API Test",
+        "completion": "2026-10-15T00:00:00.000Z",
+        "description": "Fictional test record",
+        "_id": "6ad1620dd58bcc3dbe84945e",
+        "createdAt": "2026-10-15T23:30:21.662Z",
+        "updatedAt": "2026-10-15T23:30:21.662Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "qualifications",
+      "method": "GET",
+      "path": "/api/qualifications",
+      "status": 200,
+      "request": {},
+      "response": [
+        {
+          "_id": "6ad1620dd58bcc3dbe84945e",
+          "firstname": "API",
+          "lastname": "Demo",
+          "email": "demo@example.com",
+          "title": "Disposable API Test",
+          "completion": "2026-10-15T00:00:00.000Z",
+          "description": "Fictional test record",
+          "createdAt": "2026-10-15T23:30:21.662Z",
+          "updatedAt": "2026-10-15T23:30:21.662Z",
+          "__v": 0
+        }
+      ]
+    },
+    {
+      "group": "qualifications",
+      "method": "GET",
+      "path": "/api/qualifications/6ad1620dd58bcc3dbe84945e",
+      "status": 200,
+      "request": {},
+      "response": {
+        "_id": "6ad1620dd58bcc3dbe84945e",
+        "firstname": "API",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "title": "Disposable API Test",
+        "completion": "2026-10-15T00:00:00.000Z",
+        "description": "Fictional test record",
+        "createdAt": "2026-10-15T23:30:21.662Z",
+        "updatedAt": "2026-10-15T23:30:21.662Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "qualifications",
+      "method": "PUT",
+      "path": "/api/qualifications/6ad1620dd58bcc3dbe84945e",
+      "status": 200,
+      "request": {
+        "firstname": "Updated Demo"
+      },
+      "response": {
+        "firstname": "Updated Demo",
+        "lastname": "Demo",
+        "email": "demo@example.com",
+        "title": "Disposable API Test",
+        "completion": "2026-10-15T00:00:00.000Z",
+        "description": "Fictional test record",
+        "_id": "6ad1620dd58bcc3dbe84945e",
+        "createdAt": "2026-10-15T23:30:21.662Z",
+        "updatedAt": "2026-10-15T23:30:21.665Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "qualifications",
+      "method": "DELETE",
+      "path": "/api/qualifications/6ad1620dd58bcc3dbe84945e",
+      "status": 200,
+      "request": {},
+      "response": {
+        "message": "Record deleted",
+        "id": "6ad1620dd58bcc3dbe84945e"
+      }
+    },
+    {
+      "group": "qualifications",
+      "method": "DELETE",
+      "path": "/api/qualifications",
+      "status": 200,
+      "request": {},
+      "response": {
+        "deletedCount": 0
+      }
+    },
+    {
+      "group": "users",
+      "method": "POST",
+      "path": "/api/users",
+      "status": 201,
+      "request": {
+        "name": "Disposable User",
+        "email": "disposable@example.com"
+      },
+      "response": {
+        "name": "Disposable User",
+        "email": "disposable@example.com",
+        "_id": "6ad1620dd58bcc3dbe84945f",
+        "created": "2026-10-15T23:30:21.668Z",
+        "updated": "2026-10-15T23:30:21.668Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "authentication",
+      "method": "POST",
+      "path": "/api/auth/signin",
+      "status": 200,
+      "request": {
+        "name": "Disposable User",
+        "email": "disposable@example.com"
+      },
+      "response": {
+        "user": {
+          "_id": "6ad1620dd58bcc3dbe84945f",
+          "name": "Disposable User",
+          "email": "disposable@example.com",
+          "created": "2026-10-15T23:30:21.668Z",
+          "updated": "2026-10-15T23:30:21.668Z",
+          "__v": 0,
+          "canManage": false
+        }
+      }
+    },
+    {
+      "group": "users",
+      "method": "GET",
+      "path": "/api/users",
+      "status": 200,
+      "request": {},
+      "response": [
+        {
+          "_id": "6ad1620dd58bcc3dbe84945f",
+          "name": "Disposable User",
+          "email": "disposable@example.com",
+          "created": "2026-10-15T23:30:21.668Z",
+          "updated": "2026-10-15T23:30:21.668Z",
+          "__v": 0
+        },
+        {
+          "_id": "6ad1620dd58bcc3dbe84945b",
+          "name": "Owner Test",
+          "email": "owner@example.com",
+          "created": "2026-10-15T23:30:21.170Z",
+          "updated": "2026-10-15T23:30:21.170Z",
+          "__v": 0
+        }
+      ]
+    },
+    {
+      "group": "users",
+      "method": "GET",
+      "path": "/api/users/6ad1620dd58bcc3dbe84945f",
+      "status": 200,
+      "request": {},
+      "response": {
+        "_id": "6ad1620dd58bcc3dbe84945f",
+        "name": "Disposable User",
+        "email": "disposable@example.com",
+        "created": "2026-10-15T23:30:21.668Z",
+        "updated": "2026-10-15T23:30:21.668Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "users",
+      "method": "PUT",
+      "path": "/api/users/6ad1620dd58bcc3dbe84945f",
+      "status": 200,
+      "request": {
+        "name": "Updated User"
+      },
+      "response": {
+        "name": "Updated User",
+        "email": "disposable@example.com",
+        "_id": "6ad1620dd58bcc3dbe84945f",
+        "created": "2026-10-15T23:30:21.668Z",
+        "updated": "2026-10-15T23:30:22.418Z",
+        "__v": 0
+      }
+    },
+    {
+      "group": "users",
+      "method": "DELETE",
+      "path": "/api/users/6ad1620dd58bcc3dbe84945f",
+      "status": 200,
+      "request": {},
+      "response": {
+        "message": "Record deleted",
+        "id": "6ad1620dd58bcc3dbe84945f"
+      }
+    },
+    {
+      "group": "users",
+      "method": "DELETE",
+      "path": "/api/users",
+      "status": 200,
+      "request": {},
+      "response": {
+        "deletedCount": 1
+      }
+    }
+  ]
+}

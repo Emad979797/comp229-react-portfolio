@@ -361,3 +361,18 @@ summary:focus-visible {
 }
 
 .split h1, .contact h1 { font-size:clamp(2.7rem,4vw,3.8rem); }
+
+/* Assignment 2 workspace follows the existing portfolio palette. */
+.api-error { padding: 1rem; background: #fff0ef; color: #9c2525; border-radius: 12px; }
+.workspace-form { max-width: 600px; display: grid; gap: 1rem; margin: 2rem 0; padding: 1.5rem; background: #f5f5f8; border-radius: 16px; }
+.workspace-form label { display: grid; gap: .4rem; }
+.workspace-form input, .workspace-form textarea { width: 100%; padding: .8rem; border: 1px solid #bbb; border-radius: 8px; font: inherit; box-sizing: border-box; }
+.workspace-toolbar, .workspace-tabs { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+.dashboard button { cursor: pointer; padding: .65rem 1rem; border: 1px solid #b8b5c9; border-radius: 8px; font: inherit; }
+.dashboard button[aria-pressed="true"] { background: #36334e; color: white; }
+.workspace-records { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1rem; margin-top: 2rem; }
+.workspace-records article { border: 1px solid #ddd; padding: 1.5rem; border-radius: 16px; overflow-wrap: anywhere; }
+.workspace-records dl { font-size: .85rem; }
+.workspace-records dt { font-weight: 700; margin-top: .5rem; }
+.workspace-records dd { margin-left: 0; }
+button:disabled { cursor: wait; opacity: .65; }

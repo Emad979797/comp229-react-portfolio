@@ -1,4 +1,6 @@
 import React from "react";
+import { api } from "./api.js";
+import Dashboard from "./Dashboard.jsx";
 import { createRoot } from "react-dom/client";
 import {
   HashRouter,
@@ -73,6 +75,7 @@ function Layout({ children }) {
             "Education",
             "Services",
             "Contact",
+            "Workspace",
           ].map((item) => (
             <NavLink
               key={item}
@@ -97,7 +100,7 @@ function ContactReceipt({ contact }) {
     <aside className="contact-receipt" role="status">
       <h2>Thanks, {contact.firstName}!</h2>
       <p>
-        Your message was captured for this demonstration. No email was sent.
+        Your message was saved to the portfolio database. No email was sent.
       </p>
       <details>
         <summary>Review captured information</summary>
@@ -316,11 +319,19 @@ function Services() {
 }
 function Contact() {
   const navigate = useNavigate();
-  function submit(e) {
+  const [error, setError] = React.useState('');
+  const [busy, setBusy] = React.useState(false);
+  async function submit(e) {
     e.preventDefault();
     const contact = captureContact(new FormData(e.currentTarget));
-    // Router state carries the captured values to Home without sending an email.
-    navigate("/", { state: { contact } });
+    setBusy(true); setError('');
+    try {
+      await api('/contacts', { method: 'POST', body: {
+        firstname: contact.firstName, lastname: contact.lastName,
+        email: contact.email, phone: contact.phone, message: contact.message,
+      } });
+      navigate('/', { state: { contact } });
+    } catch (error) { setError(error.message); } finally { setBusy(false); }
   }
   return (
     <section className="contact">
@@ -353,9 +364,9 @@ function Contact() {
         </p>
       </div>
       <form onSubmit={submit}>
+        {error && <p role="alert" className="api-error">{error}</p>}
         <p className="form-note">
-          Demo form: captures your details and returns you to Home. No email is
-          sent.
+          Your message will be saved securely in the portfolio database. No email is sent.
         </p>
         <>
           <label>
@@ -378,8 +389,8 @@ function Contact() {
             Message
             <textarea required name="message" rows="4" />
           </label>
-          <button className="button" type="submit">
-            Send message
+          <button className="button" type="submit" disabled={busy}>
+            {busy ? "Saving…" : "Send message"}
           </button>
         </>
       </form>
@@ -396,6 +407,7 @@ function App() {
         <Route path="/education" element={<Education />} />
         <Route path="/services" element={<Services />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/workspace" element={<Dashboard />} />
       </Routes>
     </Layout>
   );
