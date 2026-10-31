@@ -21,10 +21,10 @@ export function requireOwner(req, res, next) {
 }
 
 export function requireManager(req, res, next) {
-  if (req.auth.email !== (process.env.PORTFOLIO_OWNER_EMAIL || '').trim().toLowerCase())
-    return res.status(403).json({ error: 'Portfolio owner access required' });
+  if (req.auth.role !== 'admin')
+    return res.status(403).json({ error: 'Administrator access required' });
   next();
 }
 export function userView(user) {
-  return { ...user.toJSON(), canManage: user.email === (process.env.PORTFOLIO_OWNER_EMAIL || '').trim().toLowerCase() };
+  return { ...user.toJSON(), canManage: user.role === 'admin' };
 }

@@ -5,6 +5,7 @@ const schema = new mongoose.Schema({
   name: { type: String, required: true, trim: true, maxlength: 100 },
   email: { ...personFields.email, unique: true },
   password: { type: String, required: true, minlength: 8, maxlength: 72, select: false },
+  role: { type: String, enum: ['user', 'admin'], default: 'user', required: true },
   tokenVersion: { type: Number, default: 0, select: false },
 }, { timestamps: { createdAt: 'created', updatedAt: 'updated' },
   toJSON: { transform(_doc, value) { delete value.password; delete value.tokenVersion; return value; } } });

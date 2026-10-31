@@ -9,9 +9,11 @@ if (!process.env.MONGODB_URI || !process.env.PORTFOLIO_OWNER_EMAIL || !process.e
 try {
   await mongoose.connect(process.env.MONGODB_URI, { dbName: 'Portfolio' });
   const email = process.env.PORTFOLIO_OWNER_EMAIL.toLowerCase();
-  if (!(await User.exists({ email }))) await User.create({ name: 'Portfolio Owner', email, password: process.env.SEED_OWNER_PASSWORD });
+  const admin = await User.findOne({ email });
+  if (!admin) await User.create({ name: 'Portfolio Admin', email, password: process.env.SEED_OWNER_PASSWORD, role: 'admin' });
+  else { admin.role = 'admin'; await admin.save(); }
   const person = { firstname: 'Sample', lastname: 'Student', email: 'sample@example.com' };
-  if (!(await Contact.exists({ email: person.email }))) await Contact.create({ ...person, message: 'Fictional contact for the Assignment 2 demonstration.', phone: '555-0100' });
+  if (!(await Contact.exists({ email: person.email }))) await Contact.create({ ...person, message: 'Fictional contact for the Assignment 3 demonstration.', phone: '555-0100' });
   for (const [Model, title, description] of [
     [Project, 'Portfolio Backend Lab', 'Sample project record used to demonstrate the portfolio REST API.'],
     [Qualification, 'Web Application Development Lab', 'Sample qualification record used to demonstrate the portfolio REST API.'],

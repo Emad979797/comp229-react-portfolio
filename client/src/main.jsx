@@ -12,7 +12,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import "./styles.css";
-import { captureContact } from "./contact.js";
 
 // Descriptions reflect the public source code and deployed project pages.
 const projects = [
@@ -199,6 +198,25 @@ function About() {
     </section>
   );
 }
+function SavedRecords({ resource }) {
+  const [records, setRecords] = React.useState([]);
+  const [error, setError] = React.useState('');
+  React.useEffect(() => {
+    let active = true;
+    api('/' + resource).then(data => { if (active) setRecords(data); })
+      .catch(error => { if (active) setError(error.message); });
+    return () => { active = false; };
+  }, [resource]);
+  return <div className="workspace-records">
+    <h2>{resource === 'projects' ? 'Project updates' : 'Education updates'}</h2>
+    {error && <p role="alert">Unable to load saved records: {error}</p>}
+    {!error && !records.length && <p>No additional records yet.</p>}
+    {records.map(record => <article key={record._id}>
+      <h3>{record.title}</h3>
+      <p>{record.completion?.slice(0, 10)}</p><p>{record.description}</p>
+    </article>)}
+  </div>;
+}
 function Projects() {
   return (
     <section>
@@ -241,6 +259,7 @@ function Projects() {
           </article>
         ))}
       </div>
+      <SavedRecords resource="projects" />
     </section>
   );
 }
@@ -280,6 +299,7 @@ function Education() {
           <h3>University of Sana'a</h3>
         </article>
       </div>
+      <SavedRecords resource="qualifications" />
     </section>
   );
 }
@@ -321,9 +341,10 @@ function Contact() {
   const navigate = useNavigate();
   const [error, setError] = React.useState('');
   const [busy, setBusy] = React.useState(false);
+  const [contact, setContact] = React.useState({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+  function updateContact(event) { setContact(current => ({ ...current, [event.target.name]: event.target.value })); }
   async function submit(e) {
     e.preventDefault();
-    const contact = captureContact(new FormData(e.currentTarget));
     setBusy(true); setError('');
     try {
       await api('/contacts', { method: 'POST', body: {
@@ -371,23 +392,23 @@ function Contact() {
         <>
           <label>
             First name
-            <input required name="firstName" autoComplete="given-name" />
+            <input required name="firstName" value={contact.firstName} onChange={updateContact} autoComplete="given-name" />
           </label>
           <label>
             Last name
-            <input required name="lastName" autoComplete="family-name" />
+            <input required name="lastName" value={contact.lastName} onChange={updateContact} autoComplete="family-name" />
           </label>
           <label>
             Email address
-            <input required name="email" type="email" autoComplete="email" />
+            <input required name="email" value={contact.email} onChange={updateContact} type="email" autoComplete="email" />
           </label>
           <label>
             Contact number
-            <input required name="phone" type="tel" autoComplete="tel" />
+            <input required name="phone" value={contact.phone} onChange={updateContact} type="tel" autoComplete="tel" />
           </label>
           <label>
             Message
-            <textarea required name="message" rows="4" />
+            <textarea required name="message" value={contact.message} onChange={updateContact} rows="4" />
           </label>
           <button className="button" type="submit" disabled={busy}>
             {busy ? "Saving…" : "Send message"}

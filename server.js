@@ -6,6 +6,8 @@ if (!process.env.MONGODB_URI) throw new Error('Set MONGODB_URI in .env');
 const { default: app } = await import('./server/express.js');
 try {
   await mongoose.connect(process.env.MONGODB_URI, { dbName: 'Portfolio', serverSelectionTimeoutMS: 10000 });
+  const { migrateLegacyOwner } = await import('./server/migrate-owner.js');
+  await migrateLegacyOwner();
   console.log('Connected to MongoDB database: Portfolio');
   const port = Number(process.env.PORT) || 3000;
   const server = await new Promise((resolve, reject) => {

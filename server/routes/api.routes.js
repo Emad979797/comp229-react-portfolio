@@ -12,6 +12,7 @@ const authLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 30, message: { 
 const contactLimiter = rateLimit({ windowMs: 15 * 60 * 1000, limit: 30, message: { error: 'Too many submissions. Try again later.' } });
 router.post('/auth/signin', authLimiter, signin);
 router.post('/auth/signout', requireAuth, signout);
+router.get('/auth/signout', requireAuth, signout);
 router.get('/auth/me', requireAuth, (req, res) => res.json(userView(req.auth)));
 for (const [name, Model, fields] of [
   ['contacts', Contact, ['firstname', 'lastname', 'email', 'phone', 'message']],
@@ -35,10 +36,10 @@ router.get('/users/:id', requireAuth, (req, res, next) => {
   if (req.auth.id === req.params.id) return next();
   return requireManager(req, res, next);
 }, users.read);
-router.put('/users/:id', requireAuth, requireOwner, users.update);
-router.delete('/users/:id', requireAuth, requireOwner, users.remove);
+router.put('/users/:id', requireAuth, requireManager, users.update);
+router.delete('/users/:id', requireAuth, requireManager, users.remove);
 // Whole-collection user deletion is available only in explicitly enabled local lab mode.
-router.delete('/users', requireAuth, (req, res, next) => {
+router.delete('/users', requireAuth, requireManager, (req, res, next) => {
   if (process.env.ALLOW_LAB_BULK_USER_DELETE !== 'true' || process.env.NODE_ENV === 'production')
     return res.status(403).json({ error: 'Bulk user deletion is disabled outside local lab mode' });
   next();

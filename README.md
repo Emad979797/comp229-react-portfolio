@@ -1,60 +1,42 @@
-# COMP229 Assignment 2 Portfolio
+# COMP229 Assignment 3 Full Stack Portfolio
 
-Emad Al Nounou — React portfolio with an Express REST API and MongoDB database.
+Emad Al Nounou — React, Express, MongoDB and JWT authentication.
 
-## Requirements
+## Run locally
 
-Node.js 22.12+ or 24 LTS and MongoDB (local or Atlas). The database name is `Portfolio`.
+Use Node.js 22.12+ or 24 LTS. Run `npm ci` and `npm ci --prefix client`.
+Copy `.env.example` to `.env` and set your MongoDB URI, a random JWT secret of at least 32 characters, and `PORTFOLIO_OWNER_EMAIL`.
+Run `npm run local-db` if you need a persistent local MongoDB instance, then `npm run dev` in another terminal.
+Open http://localhost:5173. Alternatively, run `npm run build` and `npm start` for the combined app on port 3000.
 
-## Local setup
+## Administrator setup
 
-1. Run `npm ci` in the project root and `npm ci --prefix client`.
-2. Copy `.env.example` to `.env`. Set a random JWT secret of at least 32 characters and your owner email.
-3. Use your local MongoDB URI or an Atlas URI. If MongoDB is not installed, `npm run local-db` starts a real local MongoDB process and preserves its data in `.data/mongodb`. Keep that terminal open. Its first run downloads MongoDB from the official download host.
-4. Run `npm run dev` from the root, or run `npm run dev` from `client`. The client runs on http://localhost:5173 and proxies `/api` to http://127.0.0.1:3000.
-5. Create the owner account in Workspace using the same email as `PORTFOLIO_OWNER_EMAIL`. Create it before sharing the hosted link.
+Set `SEED_OWNER_PASSWORD` locally and run `npm run seed` against the intended database. This creates the configured owner as an administrator, or promotes an existing owner account without changing its password. The role is stored in MongoDB as `admin`; passwords are bcrypt hashes. Existing records are preserved. Do not commit credentials or `.env`.
 
-For a standalone backend, run `node server.js` from the root. To serve the built React app with Express, run `npm run build` then `npm start`, and open http://localhost:3000.
+All public registrations receive `role: user`. Registration and update requests cannot set a role. Administrators are provisioned through the seed script, never through a public form. On startup, the configured Assignment 2 owner is migrated to the stored Admin role only if that legacy document has no role field. New public accounts always have a stored User role and cannot qualify for this migration. Use the seed script for explicit administrator provisioning.
 
-The optional `npm run seed` command creates clearly labelled fictional records and the owner account if it does not exist. It requires `SEED_OWNER_PASSWORD` in your local environment. Existing records are preserved. Do not commit this password or `.env`.
+## Roles and forms
+
+The Workspace has Sign Up and Sign In forms. Administrators can create, read, update and delete projects, education, contacts and user accounts. The frontend hides editing controls for normal users and the backend independently enforces administrator permissions. Normal users can read projects and education. Visitors can submit the public Contact form; contact messages and account lists are visible only to administrators. This preserves visitor privacy.
+
+React state controls all form values, authenticated user, selected resource, editing record, loading, errors and success messages. Successful writes reload the current resource from MongoDB. Public Projects and Education pages also display database records alongside the original portfolio content. Sessions use a one-hour JWT held in memory; refreshing requires signing in again. Sign out revokes the account's existing tokens in MongoDB.
 
 ## API
 
-The base URL is `http://localhost:3000/api`. Each resource (`contacts`, `projects`, `qualifications`, `users`) supports:
+`POST /api/auth/signin` returns a token and role. `GET /api/auth/signout` revokes sessions (POST is also supported). `GET /api/auth/me` returns the signed-in user. Send `Authorization: Bearer <token>` for protected requests.
 
-| Method | Path | Action |
-| --- | --- | --- |
-| GET | /resource | List records |
-| GET | /resource/:id | Read one record |
-| POST | /resource | Create a record |
-| PUT | /resource/:id | Update a record |
-| DELETE | /resource/:id | Delete a record |
-| DELETE | /resource | Delete all records |
+Each resource (`contacts`, `projects`, `qualifications`, `users`) has GET list, GET by ID, POST, PUT by ID, DELETE by ID and DELETE list routes. List deletion is not exposed in the UI. User bulk deletion additionally requires `ALLOW_LAB_BULK_USER_DELETE=true` and is always disabled in production. Project and qualification reads and public contact submissions do not require a token. User registration is public; all account updates/deletion require an administrator.
 
-Contacts require `firstname`, `lastname`, `email`; optional `phone` and `message` retain the Assignment 1 form. Projects and qualifications require `title`, `firstname`, `lastname`, `email`, `completion` (date), and `description`. Users require `name`, `email`, and `password` (8–72 characters); `created` and `updated` are generated dates. Passwords are stored as bcrypt hashes and omitted from responses.
+## Verify and demonstrate
 
-`POST /api/auth/signin` accepts email and password and returns a one-hour JWT. Send it in `Authorization: Bearer <token>`. `POST /api/auth/signout` revokes all existing sessions for that account using a persisted token version. `GET /api/auth/me` returns the current user.
+`npm test` runs real MongoDB integration tests in a disposable database. It checks CRUD, password hashing, default User role, role injection rejection, administrator permissions, blocked User writes, validation and revoked JWTs. `npm run build --prefix client` checks the frontend build.
 
-Project and qualification reads, contact creation, and user registration are public. Contact reads and portfolio writes require the configured portfolio owner. Users can read, update and delete their own account; the owner may list users. Whole-collection user deletion requires `ALLOW_LAB_BULK_USER_DELETE=true` and is always disabled when `NODE_ENV=production`. This fulfills the lab endpoint while preventing accidental removal of all hosted accounts. The automated tests exercise this endpoint against a disposable database.
+For a disposable local demo, build the frontend and run `node scripts/preview-lab.js`. Open http://127.0.0.1:3003/#/workspace. Demo-only accounts are `admin@example.com` / `Demo-Admin-2026` and `viewer@example.com` / `Demo-Viewer-2026`. This script creates an isolated temporary database and never reads hosted credentials. These accounts do not exist on the deployed site.
 
-## Verification
+## Existing hosting
 
-Run `npm test`. Tests start a disposable, real MongoDB database and cover all 24 resource endpoints, registration, duplicate email, password hashing, owner permissions, invalid input, missing records, signout revocation, and the production bulk-delete restriction. Test data is separate from your running `Portfolio` database. Run `npm run build --prefix client` to verify the frontend build.
-
-Import `postman/Portfolio.postman_collection.json` in Postman. Set `baseUrl`, `ownerEmail`, and `ownerPassword`; run sign-in to save a token. CRUD requests store IDs automatically. Use only disposable records when demonstrating deletion. Do not share the exported environment if it contains a token or password.
-
-## Deploy on Render with MongoDB Atlas
-
-1. Create an Atlas Free cluster. Create a database user limited to the Portfolio database. Allow your own IP for local use and the outbound IP ranges shown by Render for the deployed service. Avoid allowing every IP when specific ranges are available.
-2. Push the project root (including `client`, `server`, `server.js`, both lockfiles, and `render.yaml`) to your Assignment 2 GitHub repository or branch. Exclude `.env`, `node_modules`, `.data`, and built files.
-3. Create a Render Node Web Service from that repository. Build command: `npm ci && npm run build`. Start command: `npm start`. Choose the Free instance.
-4. Set `NODE_ENV=production`, `MONGODB_URI` (Atlas connection URI), `JWT_SECRET` (a new random secret), and `PORTFOLIO_OWNER_EMAIL` (your email). Render supplies `PORT`. Set `CLIENT_ORIGIN` to the final HTTPS site URL if using cross-origin requests; same-origin requests work without it.
-5. Deploy, create the owner account before sharing the link, and verify `/api/health`, Contact, and Workspace on the hosted site. Record the final link for submission.
-
-Render's free service may sleep after inactivity, so open it before recording the walkthrough. GitHub Pages alone cannot run this Express server.
+The current deployment is https://emad-portfolio.onrender.com and the repository is https://github.com/Emad979797/comp229-react-portfolio. Deploy the Assignment 3 branch through the existing Render service; preserve its Atlas URI, JWT secret and instance plan. Run administrator provisioning against the hosted database, then verify the live roles, forms and health route. A frontend-only host cannot run this Express/MongoDB backend.
 
 ## Submission
 
-Submit the live site URL, GitHub repository URL (or source ZIP), a video link showing local and hosted operation, and the Word document containing database, server and API test screenshots. The cloud deployment and recording must be completed before submission.
-
-Official references: https://expressjs.com/en/guide/error-handling/ ; https://mongoosejs.com/docs/validation.html ; https://www.mongodb.com/docs/atlas/tutorial/deploy-free-tier-cluster/ ; https://render.com/docs/free
+Include the final hosted URL, the Assignment 3 GitHub branch or source ZIP, a new video showing local and hosted operation, and the Word screenshot report. Use fictional contact data in demonstrations.
